@@ -1,17 +1,26 @@
 import { useState } from 'react';
 import Button from '../../ui/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateName } from './userSlice';
+import { redirect, useNavigate } from 'react-router-dom';
 
 function CreateUser() {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState('');
+  const user = useSelector((state) => state.user?.username);
+  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!username) return;
+    dispatch(updateName(username));
+    return navigate('/menu');
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <p className="mb-4 text-sm text-stone-600 md:text-base">
-        👋 Welcome! Please start by telling us your name:
+        Hot, Delicious Pizza Delivered to Your Doorstep in Minutes!
       </p>
 
       <input
