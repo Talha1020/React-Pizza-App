@@ -7,7 +7,7 @@ import { redirect, useNavigate } from 'react-router-dom';
 function CreateUser() {
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
-  const user = useSelector((state) => state.user?.username);
+
   const navigate = useNavigate();
 
   function handleSubmit(e) {
