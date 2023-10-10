@@ -10,6 +10,7 @@ import AppLayout from './ui/AppLayout';
 import { Provider } from 'react-redux';
 import store from './store';
 import OrderItem from './order/OrderItem';
+import { action as updateOrder } from './order/updateOrder';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
         element: <Order />,
         loader: orderLoader,
         errorElement: <Error />,
+        action: updateOrder,
       },
     ],
   },
