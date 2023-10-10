@@ -3,14 +3,17 @@ import Button from '../../ui/Button';
 import { formatCurrency } from '../../utils/helpers';
 import { addQuantity, addToCart } from '../cart/cartSlice';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 /* eslint react/prop-types: 0 */
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
   const cart = useSelector((state) => state.cart.cart);
-
+  const username = useSelector((state) => state.user.username);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [ItemQuantity, setItemQuantity] = useState(0);
+  // const username = useSelector((state) => state.user.username);
 
   const newPizza = {
     pizzaId: id,
@@ -54,57 +57,59 @@ function MenuItem({ pizza }) {
     setItemQuantity(inputValue);
   }
   return (
-    <li className="flex gap-4 py-2">
-      <img
-        src={imageUrl}
-        alt={name}
-        className={`h-24 ${soldOut ? 'opacity-70 grayscale' : ''}`}
-      />
-      <div className="flex grow flex-col pt-0.5">
-        <p className="font-medium">{name}</p>
-        <p className="text-sm capitalize italic text-stone-500">
-          {ingredients.join(', ')}
-        </p>
-        <div className="mt-auto flex items-center justify-between">
-          {!soldOut ? (
-            <p className="text-sm">{formatCurrency(unitPrice)}</p>
-          ) : (
-            <p className="text-sm font-medium uppercase text-stone-500">
-              Sold out
-            </p>
-          )}
+    <>
+      <li className="flex gap-4 py-2">
+        <img
+          src={imageUrl}
+          alt={name}
+          className={`h-24 ${soldOut ? 'opacity-70 grayscale' : ''}`}
+        />
+        <div className="flex grow flex-col pt-0.5">
+          <p className="font-medium">{name}</p>
+          <p className="text-sm capitalize italic text-stone-500">
+            {ingredients.join(', ')}
+          </p>
+          <div className="mt-auto flex items-center justify-between">
+            {!soldOut ? (
+              <p className="text-sm">{formatCurrency(unitPrice)}</p>
+            ) : (
+              <p className="text-sm font-medium uppercase text-stone-500">
+                Sold out
+              </p>
+            )}
 
-          {!soldOut && (
-            <>
-              <div className="ml-[22rem] flex items-center">
-                <button
-                  onClick={quantityHandlerAdd}
-                  className="relative flex h-6 w-6 items-center justify-center rounded-full bg-gray-300 text-sm font-bold text-gray-800 transition duration-300 ease-in-out hover:bg-gray-400  focus:outline-none"
-                >
-                  <span className="absolute inset-0 ">+</span>
-                </button>
-                <input
-                  type="text"
-                  className="mx-2 h-6 w-10 rounded-md border border-gray-300 text-center text-gray-700 focus:outline-none"
-                  value={ItemQuantity}
-                  inputMode="numeric"
-                  onChange={quantityHandler}
-                />
-                <button
-                  onClick={quantityHandlerSub}
-                  className="relative flex h-6 w-6 items-center justify-center rounded-full bg-gray-300 text-sm font-bold text-gray-800 transition duration-300 ease-in-out hover:bg-gray-400  focus:outline-none"
-                >
-                  <span className="absolute inset-0 ">-</span>
-                </button>
-              </div>
-              <Button onClick={handlerOnClick} type="small">
-                Add to cart
-              </Button>
-            </>
-          )}
+            {!soldOut && username && (
+              <>
+                <div className="ml-[22rem] flex items-center">
+                  <button
+                    onClick={quantityHandlerAdd}
+                    className="relative flex h-6 w-6 items-center justify-center rounded-full bg-gray-300 text-sm font-bold text-gray-800 transition duration-300 ease-in-out hover:bg-gray-400  focus:outline-none"
+                  >
+                    <span className="absolute inset-0 ">+</span>
+                  </button>
+                  <input
+                    type="text"
+                    className="mx-2 h-6 w-10 rounded-md border border-gray-300 text-center text-gray-700 focus:outline-none"
+                    value={ItemQuantity}
+                    inputMode="numeric"
+                    onChange={quantityHandler}
+                  />
+                  <button
+                    onClick={quantityHandlerSub}
+                    className="relative flex h-6 w-6 items-center justify-center rounded-full bg-gray-300 text-sm font-bold text-gray-800 transition duration-300 ease-in-out hover:bg-gray-400  focus:outline-none"
+                  >
+                    <span className="absolute inset-0 ">-</span>
+                  </button>
+                </div>
+                <Button onClick={handlerOnClick} type="small">
+                  Add to cart
+                </Button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </li>
+      </li>
+    </>
   );
 }
 
