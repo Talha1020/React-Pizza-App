@@ -1,8 +1,12 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHandPointer } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 /* eslint react/prop-types: 0 */
-function Button({ children, disabled, to, type }) {
+function Button({ children, disabled, to, type, onClick }) {
   const base =
-    'inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 disabled:cursor-not-allowed';
+    'inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300  active:bg-yellow-300 active:outline-none active:ring active:ring-yellow-300 active:ring-offset-2 disabled:cursor-not-allowed';
 
   const styles = {
     primary: base + ' px-4 py-3 md:px-6 md:py-4',
@@ -18,6 +22,12 @@ function Button({ children, disabled, to, type }) {
       </Link>
     );
 
+  if (onClick)
+    return (
+      <button onClick={onClick} className={styles[type]}>
+        {children}
+      </button>
+    );
   return (
     <button disabled={disabled} className={styles[type]}>
       {children}
@@ -26,3 +36,13 @@ function Button({ children, disabled, to, type }) {
 }
 
 export default Button;
+
+const BackLink = ({ to, children }) => {
+  return (
+    <Link to={to} className="inline-block  items-center text-gray-200 ">
+      {children}
+    </Link>
+  );
+};
+
+export { BackLink };

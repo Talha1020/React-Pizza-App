@@ -21,8 +21,10 @@ function MenuItem({ pizza }) {
   };
   function handlerOnClick() {
     if (ItemQuantity === 0) return;
+    // its for cheching if anyone adds 0 quantity in the input and add, to avoid it, early return is added if there is no input.
     if (cart.length > 0) {
       const containsItem = cart.some((item) => item.pizzaId === id);
+      // checking if it contains the element before , if yes then first function will run to add the quantity, if not then second to add the item.
       containsItem
         ? dispatch(addQuantity(newPizza))
         : dispatch(addToCart(newPizza));
