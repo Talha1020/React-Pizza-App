@@ -8,10 +8,12 @@ import { calcMinutesLeft, formatCurrency, formatDate } from '../utils/helpers';
 import UpdateOrderButton from './updateOrder';
 import LinkButton from '../ui/LinkButton';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 function Order() {
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   const order = useLoaderData();
+  const username = useSelector((state) => state.user.username);
   const {
     id,
     status,
@@ -33,7 +35,7 @@ function Order() {
 
   return (
     <div className="space-y-8 px-4 py-6">
-      <LinkButton to="/menu">&larr; Back to menu</LinkButton>
+      {username && <LinkButton to="/menu">&larr; Back to menu</LinkButton>}
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-xl font-semibold">Order #{id} status</h2>
 
